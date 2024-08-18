@@ -62,6 +62,26 @@ public class Pushable : MapObject
         }   
     }
 
+    public void moveDirection(int direction)
+    {
+        if (Directions.isLeft(direction))
+        {
+            moveLeft();
+        }
+        else if (Directions.isRight(direction))
+        {
+            moveRight();
+        }
+        else if (Directions.isUp(direction))
+        {
+            moveUp();
+        }
+        else if (Directions.isDown(direction))
+        {
+            moveDown();
+        }
+    }
+
     public void moveLeft()
     {
         if (!isMoving)
@@ -100,7 +120,7 @@ public class Pushable : MapObject
         {
             resetAllDirections();
 
-            if (GridManager.checkTop(transform.position) == 0)
+            if (GridManager.checkUp(transform.position) == 0)
             {
                 goUp = true;
                 isMoving = true;
@@ -116,7 +136,7 @@ public class Pushable : MapObject
         {
             resetAllDirections();
 
-            if (GridManager.checkBottom(transform.position) == 0)
+            if (GridManager.checkDown(transform.position) == 0)
             {
                 goDown = true;
                 isMoving = true;

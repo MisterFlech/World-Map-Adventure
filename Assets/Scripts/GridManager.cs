@@ -27,23 +27,25 @@ public class GridManager : MonoBehaviour
         if (singleton == null)
         {
             singleton = this;
+        }
 
-            GridManager.width = width_map;
-            GridManager.height = height_map;
-            GridManager.origin = new Vector2Int((int) originPoint.transform.position.x, (int) originPoint.transform.position.y);
+        GridManager.width = width_map;
+        GridManager.height = height_map;
+        GridManager.origin = new Vector2Int((int)originPoint.transform.position.x, (int)originPoint.transform.position.y);
 
-            //On définit l'origine haut gauche de la grille comme le nouveau 0,0
-            //GridManager.origin = new Vector2Int(width/2 * -1, height/2);
-            GridManager.worldMapGrid = new int[GridManager.height, GridManager.width];
-            GridManager.worldMapObjects = new GameObject[GridManager.height, GridManager.width];
+        //On définit l'origine haut gauche de la grille comme le nouveau 0,0
+        //GridManager.origin = new Vector2Int(width/2 * -1, height/2);
+        GridManager.worldMapGrid = new int[GridManager.height, GridManager.width];
+        GridManager.worldMapObjects = new GameObject[GridManager.height, GridManager.width];
 
-            //saveWorldMap.Push(worldMapGrid.Clone());
+        //saveWorldMap.Push(worldMapGrid.Clone());
 
-            for (int i = 0; i < GridManager.height; i++){
-                for (int j = 0; j < GridManager.width; j++){
-                    GridManager.worldMapGrid[i,j] = (int) TileType.Void;
-                    GridManager.worldMapObjects[i,j] = null;
-                }
+        for (int i = 0; i < GridManager.height; i++)
+        {
+            for (int j = 0; j < GridManager.width; j++)
+            {
+                GridManager.worldMapGrid[i, j] = (int)TileType.Void;
+                GridManager.worldMapObjects[i, j] = null;
             }
         }
     }
@@ -90,8 +92,8 @@ public class GridManager : MonoBehaviour
                     if(_tileType != (int)TileType.Wall)
                     {
                         Vector3 newPosition = new Vector3(origin.x + j + 0.5f, origin.y - i + 0.5f, _gameObject.transform.position.z);
-                        Debug.Log("load 1 " + _gameObject.transform.position);
-                        Debug.Log("load 2 " + newPosition);
+                        //Debug.Log("load 1 " + _gameObject.transform.position);
+                        //Debug.Log("load 2 " + newPosition);
                         _gameObject.GetComponent<MapObject>().reset(newPosition);
                     }
                 }
@@ -102,7 +104,7 @@ public class GridManager : MonoBehaviour
     private static void debugMap()
     {
         string txtMap = "";
-        Debug.Log(height + "/" + width);
+        //Debug.Log(height + "/" + width);
         for (int i = 0; i < GridManager.height; i++)
         {
             for (int j = 0; j < GridManager.width; j++)
@@ -143,8 +145,8 @@ public class GridManager : MonoBehaviour
     public static void addElementInGrid(GameObject gameObject, TileType _tileType, Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        Debug.Log("position:" + position);
-        Debug.Log("x:"+coordonnees.x+"/y:"+coordonnees.y);
+        //Debug.Log("position:" + position);
+        //Debug.Log("x:"+coordonnees.x+"/y:"+coordonnees.y);
         GridManager.worldMapGrid[coordonnees.y, coordonnees.x] = (int) _tileType;
         GridManager.worldMapObjects[coordonnees.y, coordonnees.x] = gameObject;
     }
@@ -161,14 +163,35 @@ public class GridManager : MonoBehaviour
         return (coordonnees.x >= width - 1);
     }
 
-    public static bool isAtEdgeTop(Vector2Int coordonnees)
+    public static bool isAtEdgeUp(Vector2Int coordonnees)
     {
         return (coordonnees.y == 0);
     }
 
-    public static bool isAtEdgeBottom(Vector2Int coordonnees)
+    public static bool isAtEdgeDown(Vector2Int coordonnees)
     {
         return (coordonnees.y >= height - 1);
+    }
+
+    public static int checkDirection(int direction, Vector3 position)
+    {
+        if (Directions.isLeft(direction))
+        {
+            return checkLeft(position);
+        }
+        else if (Directions.isRight(direction))
+        {
+            return checkRight(position);
+        }
+        else if (Directions.isUp(direction))
+        {
+            return checkUp(position);
+        }
+        else if (Directions.isDown(direction))
+        {
+            return checkDown(position);
+        }
+        return -1;
     }
 
     //Regarde l'élément à côté d'une case.
@@ -192,24 +215,43 @@ public class GridManager : MonoBehaviour
         return GridManager.getTileGrid(coordonnees.x + 1, coordonnees.y);
     }
 
-    public static int checkTop(Vector3 position)
+    public static int checkUp(Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        if (GridManager.isAtEdgeTop(coordonnees))
+        if (GridManager.isAtEdgeUp(coordonnees))
         {
             return -1;
         }
         return GridManager.getTileGrid(coordonnees.x, coordonnees.y - 1);
     }
 
-    public static int checkBottom(Vector3 position)
+    public static int checkDown(Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        if (GridManager.isAtEdgeBottom(coordonnees))
+        if (GridManager.isAtEdgeDown(coordonnees))
         {
             return -1;
         }
         return GridManager.getTileGrid(coordonnees.x, coordonnees.y + 1);
+    }
+
+    public static GameObject getObjectDirection(int direction, Vector3 position)
+    {
+        if (Directions.isLeft(direction))
+        {
+            return getObjectLeft(position);
+        } else if (Directions.isRight(direction))
+        {
+            return getObjectRight(position);
+        }
+        else if(Directions.isUp(direction))
+        {
+            return getObjectUp(position);
+        } else if (Directions.isDown(direction))
+        {
+            return getObjectDown(position);
+        }
+        return null;
     }
 
     public static GameObject getObjectLeft(Vector3 position)
@@ -232,20 +274,20 @@ public class GridManager : MonoBehaviour
         return GridManager.getTileObject(coordonnees.x + 1, coordonnees.y);
     }
 
-    public static GameObject getObjectTop(Vector3 position)
+    public static GameObject getObjectUp(Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        if (GridManager.isAtEdgeTop(coordonnees))
+        if (GridManager.isAtEdgeUp(coordonnees))
         {
             return null;
         }
         return GridManager.getTileObject(coordonnees.x, coordonnees.y - 1);
     }
 
-    public static GameObject getObjectBottom(Vector3 position)
+    public static GameObject getObjectDown(Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        if (GridManager.isAtEdgeBottom(coordonnees))
+        if (GridManager.isAtEdgeDown(coordonnees))
         {
             return null;
         }
@@ -286,7 +328,7 @@ public class GridManager : MonoBehaviour
     public static void MoveUp(Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        if (GridManager.isAtEdgeTop(coordonnees))
+        if (GridManager.isAtEdgeUp(coordonnees))
         {
             Debug.Log("erreur");
         }
@@ -302,7 +344,7 @@ public class GridManager : MonoBehaviour
     public static void MoveDown(Vector3 position)
     {
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        if (GridManager.isAtEdgeBottom(coordonnees))
+        if (GridManager.isAtEdgeDown(coordonnees))
         {
             Debug.Log("erreur");
         }
