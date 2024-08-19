@@ -6,7 +6,7 @@ using TMPro;
 
 public class DialogCutscene : MonoBehaviour
 {
-    public bool start = false;
+    private bool start = false;
 
     public GameObject _textDialog;
     public GameObject _textName;
@@ -17,6 +17,11 @@ public class DialogCutscene : MonoBehaviour
     private TMP_Text _dialog = null;
     private TMP_Text _name = null;
     private Image _facesetImage = null;
+
+    public bool isTalking()
+    {
+        return start;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -40,8 +45,10 @@ public class DialogCutscene : MonoBehaviour
     private int cutsceneInterrupteur = -1;
 
     private int idDialog = 0;
-    public void startDialog(int _firstDialog, int _lastDialog, int _interruptor)
+    public void startDialog(int _idDialog, int _interruptor)
     {
+        int _firstDialog = TextDatabase.getDialog(_idDialog).x;
+        int _lastDialog = TextDatabase.getDialog(_idDialog).y;
         initTMP();
         start = true;
         firstDialog = _firstDialog;
@@ -81,15 +88,13 @@ public class DialogCutscene : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("end");
+                    //Debug.Log("end");
                     start = false;
 
                     if(cutsceneInterrupteur > -1)
                     {
                         Interrupteur.setInterrupteurCutscene(cutsceneInterrupteur, true);
                     }
-                    
-                    //freezePlayer(false);
                 }
             }
         }
@@ -105,6 +110,14 @@ public class DialogCutscene : MonoBehaviour
         else if (name == "Zarwid")
         {
             _facesetImage.sprite = facesets[1];
+        }
+        else if (name == "Bob")
+        {
+            _facesetImage.sprite = facesets[2];
+        }
+        else if (name == "Zoé")
+        {
+            _facesetImage.sprite = facesets[3];
         }
     }
 }

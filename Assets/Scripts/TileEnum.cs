@@ -5,5 +5,6 @@ public enum TileType
     Wall,
     Pushable,
     Village,
+    PNJ,
     River
 }

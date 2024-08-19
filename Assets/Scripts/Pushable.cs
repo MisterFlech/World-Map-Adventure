@@ -28,8 +28,7 @@ public class Pushable : MapObject
                 transform.position -= new Vector3(PlayerMovement.speed, 0, 0);
                 if (transform.position.x <= nextPosition.x)
                 {
-                    transform.position = new Vector3(nextPosition.x, transform.position.y, transform.position.z);
-                    isMoving = false;
+                    stopMoving();
                 }
             }
             else if (goRight)
@@ -37,8 +36,7 @@ public class Pushable : MapObject
                 transform.position += new Vector3(PlayerMovement.speed, 0, 0);
                 if (transform.position.x >= nextPosition.x)
                 {
-                    transform.position = new Vector3(nextPosition.x, transform.position.y, transform.position.z);
-                    isMoving = false;
+                    stopMoving();
                 }
             }
             else if (goUp)
@@ -46,8 +44,7 @@ public class Pushable : MapObject
                 transform.position += new Vector3(0, PlayerMovement.speed, 0);
                 if (transform.position.y >= nextPosition.y)
                 {
-                    transform.position = new Vector3(transform.position.x, nextPosition.y, transform.position.z);
-                    isMoving = false;
+                    stopMoving();
                 }
             }
             else if (goDown)
@@ -55,11 +52,16 @@ public class Pushable : MapObject
                 transform.position -= new Vector3(0, PlayerMovement.speed, 0);
                 if (transform.position.y <= nextPosition.y)
                 {
-                    transform.position = new Vector3(transform.position.x, nextPosition.y, transform.position.z);
-                    isMoving = false;
+                    stopMoving();
                 }
             }
         }   
+    }
+
+    private void stopMoving()
+    {
+        transform.position = new Vector3(transform.position.x, nextPosition.y, transform.position.z);
+        isMoving = false;
     }
 
     public void moveDirection(int direction)

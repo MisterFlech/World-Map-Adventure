@@ -205,8 +205,8 @@ TextureImporter:
       name: "Cl\xF4tures_5"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 64
+        y: 96
         width: 32
         height: 32
       alignment: 0
@@ -226,7 +226,7 @@ TextureImporter:
       name: "Cl\xF4tures_6"
       rect:
         serializedVersion: 2
-        x: 32
+        x: 0
         y: 64
         width: 32
         height: 32
@@ -247,8 +247,8 @@ TextureImporter:
       name: "Cl\xF4tures_7"
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 32
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -268,8 +268,8 @@ TextureImporter:
       name: "Cl\xF4tures_8"
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 64
+        y: 64
         width: 32
         height: 32
       alignment: 0
@@ -290,7 +290,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -311,7 +311,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -332,7 +332,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 32
         width: 32
         height: 32
       alignment: 0
@@ -344,6 +344,69 @@ TextureImporter:
       bones: []
       spriteID: 0f65a263c3c83dc48a47d41328b5b1ce
       internalID: 85940006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Cl\xF4tures_12"
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7bab6ef27fa4aa34bb1fa213caa59280
+      internalID: 212552295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Cl\xF4tures_13"
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e6af86a1aa08a964fa82f2770891da9f
+      internalID: -733237177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "Cl\xF4tures_14"
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 605fb60ba42362f4fa7ae9b1c68ccc8d
+      internalID: 1698540851
       vertices: []
       indices: 
       edges: []
@@ -363,6 +426,9 @@ TextureImporter:
       "Cl\xF4tures_1": 287914623
       "Cl\xF4tures_10": 150922271
       "Cl\xF4tures_11": 85940006
+      "Cl\xF4tures_12": 212552295
+      "Cl\xF4tures_13": -733237177
+      "Cl\xF4tures_14": 1698540851
       "Cl\xF4tures_2": 121953280
       "Cl\xF4tures_3": 72860262
       "Cl\xF4tures_4": 192784939

@@ -7,7 +7,7 @@ public class Wall : MapObject
     // Start is called before the first frame update
     void Start()
     {
-        GridManager.addElementInGrid(this.gameObject, TileType.Wall, transform.position);
+        GridManager.addElementInGrid(null, TileType.Wall, transform.position);
     }
 
     // Update is called once per frame

@@ -1,9 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GridManager : MonoBehaviour
 {
+    public bool saveGrid = false;
+    public bool resetGrid = false;
+
+    private static bool saveGridPermanent;
+    private static bool resetGridPermanent;
+
     private static int width = 10;
     private static int height = 10;
     private static Vector2Int origin;
@@ -11,12 +18,13 @@ public class GridManager : MonoBehaviour
 
     private static int[,] worldMapGrid;
     private static GameObject[,] worldMapObjects;
+    private static int idWorld;
 
     //private Stack<GameObject[,]> saveWorldMapGrid = new Stack<GameObject[,]>();
     //private Stack<GameObject[,]> saveWorldMapObjects = new Stack<GameObject[,]>();
 
-    private static int[,] worldMapGridSave;
-    private static GameObject[,] worldMapObjectsSave;
+    //private static int[,] worldMapGridSave;
+    //private static GameObject[,] worldMapObjectsSave;
 
     public int width_map = 0;
     public int height_map = 0;
@@ -33,13 +41,10 @@ public class GridManager : MonoBehaviour
         GridManager.height = height_map;
         GridManager.origin = new Vector2Int((int)originPoint.transform.position.x, (int)originPoint.transform.position.y);
 
-        //On définit l'origine haut gauche de la grille comme le nouveau 0,0
-        //GridManager.origin = new Vector2Int(width/2 * -1, height/2);
         GridManager.worldMapGrid = new int[GridManager.height, GridManager.width];
         GridManager.worldMapObjects = new GameObject[GridManager.height, GridManager.width];
 
-        //saveWorldMap.Push(worldMapGrid.Clone());
-
+        //Initialisation de la map locale
         for (int i = 0; i < GridManager.height; i++)
         {
             for (int j = 0; j < GridManager.width; j++)
@@ -48,12 +53,31 @@ public class GridManager : MonoBehaviour
                 GridManager.worldMapObjects[i, j] = null;
             }
         }
+
+        saveGridPermanent = saveGrid;
+        resetGridPermanent = resetGrid;
+        idWorld = SceneManager.GetActiveScene().buildIndex;
     }
 
     void Start()
     {
-        GridManager.debugMap();
-        GridManager.saveMap();
+        //Chaque objet se charge automatiquement dans la carte static;
+        //GridManager.debugMap(); //Map matrice
+                                //GridManager.saveMap(); //On sauvegarde la map actuelle.
+
+        if (saveGridPermanent)
+        {
+            if (GridDatabase.worldMapExists(idWorld))
+            {
+                //Si la map existe, on la charge
+                loadMap();
+            }
+            else
+            {
+                //Si la map n'existe pas dans la database, on l'ajoute
+                GridDatabase.addWorldMapOrigin(idWorld, worldMapGrid, worldMapObjects);
+            }
+        }
     }
 
     void Update()
@@ -66,21 +90,27 @@ public class GridManager : MonoBehaviour
         {
             if (!PlayerMovement._playerMovement.isMoving)
             {
-                GridManager.loadMap();
+                if (resetGridPermanent && saveGridPermanent)
+                {
+                    GridManager.resetMap();
+                }
             }
         }
     }
 
-    private static void saveMap()
+    public static void saveMap()
     {
-        GridManager.worldMapGridSave = GridManager.worldMapGrid.Clone() as int[,];
-        GridManager.worldMapObjectsSave = GridManager.worldMapObjects.Clone() as GameObject[,];
+        if (saveGridPermanent)
+        {
+            Debug.Log("save : " + idWorld);
+            GridDatabase.saveWorldMap(idWorld, GridManager.worldMapGrid, GridManager.worldMapObjects);
+        }
     }
 
-    private static void loadMap()
+    public static void resetMap()
     {
-        GridManager.worldMapGrid = GridManager.worldMapGridSave.Clone() as int[,];
-        GridManager.worldMapObjects = GridManager.worldMapObjectsSave.Clone() as GameObject[,];
+        GameObject[,] worldMapObjectsTmp = new GameObject[GridManager.height, GridManager.width];
+        GridManager.worldMapGrid = GridDatabase.getWorldMapOriginGrid(idWorld);
         for (int i = 0; i < GridManager.height; i++)
         {
             for (int j = 0; j < GridManager.width; j++)
@@ -89,12 +119,33 @@ public class GridManager : MonoBehaviour
                 int _tileType = GridManager.getTileGrid(j, i);
                 if (_gameObject != null)
                 {
-                    if(_tileType != (int)TileType.Wall)
+                    if (_tileType != (int)TileType.Wall)
                     {
-                        Vector3 newPosition = new Vector3(origin.x + j + 0.5f, origin.y - i + 0.5f, _gameObject.transform.position.z);
-                        //Debug.Log("load 1 " + _gameObject.transform.position);
-                        //Debug.Log("load 2 " + newPosition);
-                        _gameObject.GetComponent<MapObject>().reset(newPosition);
+                        int id = _gameObject.GetComponent<MapObject>().idObject;
+                        _gameObject.GetComponent<MapObject>().reset(idWorld);
+                        worldMapObjectsTmp[i, j] = _gameObject;
+                    }
+                }
+            }
+        }
+        GridManager.worldMapObjects = worldMapObjectsTmp;
+    }
+
+    public static void loadMap()
+    {
+        GridManager.worldMapGrid = GridDatabase.getWorldMapCurrentGrid(idWorld);
+        for (int i = 0; i < GridManager.height; i++)
+        {
+            for (int j = 0; j < GridManager.width; j++)
+            {
+                GameObject _gameObject = GridManager.getTileObject(j, i);
+                int _tileType = GridManager.getTileGrid(j, i);
+                if (_gameObject != null)
+                {
+                    if (_tileType != (int)TileType.Wall)
+                    {
+                        int id = _gameObject.GetComponent<MapObject>().idObject;
+                        _gameObject.GetComponent<MapObject>().load(idWorld);
                     }
                 }
             }
@@ -104,16 +155,27 @@ public class GridManager : MonoBehaviour
     private static void debugMap()
     {
         string txtMap = "";
-        //Debug.Log(height + "/" + width);
-        for (int i = 0; i < GridManager.height; i++)
+        string txtMapObject = "";
+
+        for (int i = 0; i < worldMapGrid.GetLength(0); i++)
         {
-            for (int j = 0; j < GridManager.width; j++)
+            for (int j = 0; j < worldMapGrid.GetLength(1); j++)
             {
-                txtMap += " " + GridManager.worldMapGrid[i, j];
+                txtMap += " " + worldMapGrid[i, j];
+                if (worldMapObjects[i, j] != null)
+                {
+                    txtMapObject += "X";
+                }
+                else
+                {
+                    txtMapObject += "_";
+                }
             }
             txtMap += "\n";
+            txtMapObject += "\n";
         }
         Debug.Log(txtMap);
+        Debug.Log(txtMapObject);
     }
 
     //récupère la valeur d'une case
@@ -144,9 +206,17 @@ public class GridManager : MonoBehaviour
     //Ajoute un élément sur la grille
     public static void addElementInGrid(GameObject gameObject, TileType _tileType, Vector3 position)
     {
+        if(_tileType == TileType.Pushable)
+        {
+            if (GridDatabase.worldMapExists(idWorld))
+            {
+                int idObject = gameObject.GetComponent<MapObject>().idObject;
+                position = GridDatabase.getSaveCoordonneesObject(idWorld, idObject);
+                gameObject.transform.position = position;
+            }
+        }
         Vector2Int coordonnees = GridManager.convertCoordonnees(position);
-        //Debug.Log("position:" + position);
-        //Debug.Log("x:"+coordonnees.x+"/y:"+coordonnees.y);
+        //Debug.Log(coordonnees + " " + gameObject);
         GridManager.worldMapGrid[coordonnees.y, coordonnees.x] = (int) _tileType;
         GridManager.worldMapObjects[coordonnees.y, coordonnees.x] = gameObject;
     }

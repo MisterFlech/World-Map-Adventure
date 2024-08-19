@@ -1,27 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MapObject : MonoBehaviour
 {
+    public int idObject;
     protected Vector2 nextPosition = new Vector2(0,0);
 
-    // Start is called before the first frame update
-    void Start()
+    public void reset(int idWorld)
     {
-        
+        try
+        {
+            Vector3 newPosition = GridDatabase.getOriginCoordonneesObject(idWorld, idObject);
+            transform.position = newPosition;
+            nextPosition.x = newPosition.x;
+            nextPosition.y = newPosition.y;
+            //Debug.Log("reset " + this.gameObject);
+        }
+        catch (Exception)
+        {
+            Debug.Log("coordonnées erreur");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void load(int idWorld)
     {
-        
-    }
-
-    public void reset(Vector3 newPosition)
-    {
-        transform.position = newPosition;
-        nextPosition.x = newPosition.x;
-        nextPosition.y = newPosition.y;
+        try
+        {
+            Vector3 newPosition = GridDatabase.getSaveCoordonneesObject(idWorld, idObject);
+            transform.position = newPosition;
+            nextPosition.x = newPosition.x;
+            nextPosition.y = newPosition.y;
+            Debug.Log("reset " + this.gameObject);
+        }
+        catch (Exception)
+        {
+            Debug.Log("coordonnées erreur");
+        }
     }
 }

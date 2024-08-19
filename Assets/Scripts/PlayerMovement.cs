@@ -9,12 +9,15 @@ public class PlayerMovement : MapObject
 
     public static float speed = 0.075f;
     public static bool freeze = false;
+    private bool freezeTalking = false;
     public static Vector2Int startPosition;
     private bool isPushing = false;
 
     private SpriteAnimation _spriteAnimation;
     private SpriteAnimationPush _spriteAnimationPush;
     public SpriteRenderer spriteRenderer;
+
+    private CanvasGame canvas;
 
     void Awake()
     {
@@ -36,6 +39,7 @@ public class PlayerMovement : MapObject
     // Start is called before the first frame update
     void Start()
     {
+        canvas = CanvasGame.instance;
         initPlayer();
     }
 
@@ -48,8 +52,36 @@ public class PlayerMovement : MapObject
     // Update is called once per frame
     void Update()
     {
+        if (!freeze)
+        {
+            if (!freezeTalking)
+            {
+                if (!canvas.isTalking())
+                {
+                    if (Input.GetButtonDown("Jump"))
+                    {
+                        int direction = getLookDirection();
 
-
+                        if (GridManager.checkDirection(direction, transform.position) == (int)TileType.PNJ)
+                        {
+                            GameObject _gameObject = GridManager.getObjectDirection(direction, transform.position);
+                            int numDialog = _gameObject.GetComponent<PNJ>().numDialog;
+                            _gameObject.GetComponent<PNJ>().changeDirection(direction);
+                            canvas.startDialog(numDialog, -1);
+                            freezeTalking = true;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (!canvas.isTalking())
+                {
+                    canvas.showWindowText(false);
+                    freezeTalking = false;
+                }
+            }
+        }
     }
 
     private bool goLeft = false;
@@ -57,7 +89,7 @@ public class PlayerMovement : MapObject
     private bool goUp = false;
     private bool goDown = false;
 
-    private bool _lookLeft = true;
+    private bool _lookLeft = false;
     private bool _lookRight = false;
     private bool _lookUp = false;
     private bool _lookDown = true;
@@ -138,6 +170,27 @@ public class PlayerMovement : MapObject
         }
     */
 
+    private int getLookDirection()
+    {
+        if (_lookLeft)
+        {
+            return (int)Direction.Left;
+        }
+        else if (_lookRight)
+        {
+            return (int)Direction.Right;
+        }
+        else if (_lookUp)
+        {
+            return (int)Direction.Up;
+        }
+        else if (_lookDown)
+        {
+            return (int)Direction.Down;
+        }
+        return -1;
+    }
+
     private void lookAt()
     {
         if (_lookLeft)
@@ -156,6 +209,12 @@ public class PlayerMovement : MapObject
         {
             spriteRenderer.sprite = _spriteAnimation.spritesDown[0];
         }
+    }
+
+    public void lookTo(int direction)
+    {
+        resetAllLooks(direction);
+        lookAt();
     }
 
     private void pushAt()
@@ -180,7 +239,7 @@ public class PlayerMovement : MapObject
 
     void FixedUpdate()
     {
-        if (!freeze)
+        if (!freeze && !freezeTalking)
         {
             float movX = Input.GetAxisRaw("Horizontal");
             float movY = Input.GetAxisRaw("Vertical");
@@ -246,7 +305,7 @@ public class PlayerMovement : MapObject
                             pushAt();
                             isPushing = true;
                             pushable.GetComponent<Pushable>().moveDirection(direction);
-                            AudioManager.PlaySFX(soundEffect.sfx);
+                            AudioManager.instance.PlaySFX(soundEffect.sfx);
                         }
                         else
                         {
@@ -348,55 +407,35 @@ public class PlayerMovement : MapObject
 
     private void enterVillage(GameObject pushable, int direction)
     {
-        Debug.Log("enter ?");
-        if (pushable.tag == "Village")
+        if (pushable.tag == "Village" || pushable.tag == "WayOut")
         {
-            Debug.Log("village ?");
-            Village village = pushable.GetComponent<Village>();
-            bool canTeleport = false;
-            if (Directions.isRight(direction) && village.doorLeft)
+            if (Directions.isRight(direction))
             {
-                canTeleport = true;
                 lookRight();
-            } else if (Directions.isLeft(direction) && village.doorRight)
+            }
+            else if (Directions.isLeft(direction))
             {
-                canTeleport = true;
                 lookLeft();
             }
-            else if (Directions.isDown(direction) && village.doorUp)
+            else if (Directions.isDown(direction))
             {
-                canTeleport = true;
                 lookDown();
             }
-            else if (Directions.isUp(direction) && village.doorDown)
+            else if (Directions.isUp(direction))
             {
-                canTeleport = true;
                 lookUp();
             }
 
-            if (canTeleport)
+            if (pushable.tag == "Village")
             {
-                Debug.Log("Enter village");
-                string map_name = village.teleport;
-
-                if (direction == (int)Direction.Right)
-                {
-                    PlayerTeleporter.teleportPosition = new Vector2(village.teleportCoordonneesDoorLeft.x, village.teleportCoordonneesDoorLeft.y);
-                } else if (direction == (int)Direction.Left)
-                {
-                    PlayerTeleporter.teleportPosition = new Vector2(village.teleportCoordonneesDoorRight.x, village.teleportCoordonneesDoorRight.y);
-                } else if (direction == (int)Direction.Down)
-                {
-                    PlayerTeleporter.teleportPosition = new Vector2(village.teleportCoordonneesDoorUp.x, village.teleportCoordonneesDoorUp.y);
-                } else if (direction == (int)Direction.Up)
-                {
-                    PlayerTeleporter.teleportPosition = new Vector2(village.teleportCoordonneesDoorDown.x, village.teleportCoordonneesDoorDown.y);
-                }
-
-                SceneManager.LoadScene(map_name);
-                
+                Village _village = pushable.GetComponent<Village>();
+                _village.teleport(direction);
+            } else if (pushable.tag == "WayOut")
+            {
+                WayOut _wayouy = pushable.GetComponent<WayOut>();
+                _wayouy.teleport(direction);
             }
-            
+
         }
     }
 
