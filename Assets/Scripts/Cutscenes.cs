@@ -8,6 +8,8 @@ public class Cutscenes : MonoBehaviour
     public int numCutscene = 0;
     // Start is called before the first frame update
 
+    public GameObject wizard = null;
+
     private GameObject player = null;
 
     private bool start = false;
@@ -17,18 +19,28 @@ public class Cutscenes : MonoBehaviour
 
     void Start()
     {
-        canvas = CanvasGame.instance;
-        if (numCutscene == 1 && !Interrupteur.getInterrupteurCutscene(numCutscene))
+        if(wizard != null)
         {
-            PlayerMovement.freeze = true;
-            canvas.startFadeOut(0.75f);
-            canvas.startWaiting(0.75f, () => waitCutscene());
-            //StartCoroutine(FadeOut(0.75f));
-            //StartCoroutine(WaitSecondes(0.75f, () => waitCutscene()));
-        } else if (numCutscene == 2 && !Interrupteur.getInterrupteurCutscene(numCutscene)) {
-            player = PlayerMovement._playerMovement.gameObject;
-            //_windowText.SetActive(false);
+            wizard.SetActive(false);
         }
+        canvas = CanvasGame.instance;
+        if (!Interrupteur.getInterrupteurCutscene(numCutscene))
+        {
+            if (numCutscene == 1)
+            {
+                PlayerMovement.freeze = true;
+                canvas.startFadeOut(0.75f);
+                canvas.startWaiting(0.75f, () => waitCutscene());
+                //StartCoroutine(FadeOut(0.75f));
+                //StartCoroutine(WaitSecondes(0.75f, () => waitCutscene()));
+            }
+            else
+            {
+                player = PlayerMovement._playerMovement.gameObject;
+                //_windowText.SetActive(false);
+            }
+        }
+        
     }
 
     private void waitCutscene()
@@ -61,53 +73,123 @@ public class Cutscenes : MonoBehaviour
         {
             if (start)
             {
-                if (numCutscene == 1 && Interrupteur.getInterrupteurCutscene(numCutscene))
+                if (Interrupteur.getInterrupteurCutscene(numCutscene))
                 {
                     start = false;
-                    freezePlayerForDialog(false);
-                }
-                else if (numCutscene == 2 && Interrupteur.getInterrupteurCutscene(numCutscene))
-                {
-                    start = false;
-                    if (partScene == 0)
+                    if (numCutscene == 1)
                     {
-                        partScene = 1;
-                        Interrupteur.setInterrupteurCutscene(numCutscene, false);
-                    }
-                    else if (partScene == 1)
-                    {
-                        partScene = 2;
-                        Interrupteur.setInterrupteurCutscene(numCutscene, false);
-                    }
-                    else if (partScene == 2)
-                    {
-                        partScene = 3;
-
                         freezePlayerForDialog(false);
                     }
+                    else if (numCutscene == 2)
+                    {
+                        if (partScene == 0)
+                        {
+                            partScene = 3;
+                            Interrupteur.setInterrupteurCutscene(numCutscene, false);
+                        }
+                        else if (partScene == 3)
+                        {
+                            partScene = 1;
+                            Interrupteur.setInterrupteurCutscene(numCutscene, false);
+                        }
+                        else if (partScene == 1)
+                        {
+                            partScene = 2;
+                            Interrupteur.setInterrupteurCutscene(numCutscene, false);
+                        }
+                        else if (partScene == 2)
+                        {
+                            partScene = -1;
+                            wizardAppears(false);
+                            freezePlayerForDialog(false);
+                        }
+                    }
+                    else if (numCutscene == 3)
+                    {
+                        if (partScene == 0)
+                        {
+                            partScene = -1;
+                            wizardAppears(false);
+                            freezePlayerForDialog(false);
+                        }
+                    }
+                    else if (numCutscene == 4)
+                    {
+                        if (partScene == 0)
+                        {
+                            partScene = 1;
+                            Interrupteur.setInterrupteurCutscene(numCutscene, false);
+                        }
+                        else if (partScene == 1)
+                        {
+                            partScene = -1;
+                            wizardAppears(false);
+                            freezePlayerForDialog(false);
+                        }
+                    }
                 }
+                
             }
             else
             {
-                if (numCutscene == 2 && !Interrupteur.getInterrupteurCutscene(numCutscene))
+                if (!Interrupteur.getInterrupteurCutscene(numCutscene))
                 {
-                    if (player.transform.position.x == 4.5f && partScene == 0)
+                    if (numCutscene == 2)
                     {
-                        start = true;
-                        PlayerMovement.freeze = true;
-                        canvas.startDialog(3, numCutscene);
+                        if (player.transform.position.x == 4.5f && partScene == 0)
+                        {
+                            start = true;
+                            PlayerMovement.freeze = true;
+
+                            canvas.startDialog(3, numCutscene);
+                        }
+                        else if (partScene == 3)
+                        {
+                            wizardAppears(true);
+                            canvas.startDialog(8, numCutscene);
+                            start = true;
+                        }
+                        else if (partScene == 1)
+                        {
+                            PlayerMovement._playerMovement.lookTo((int)Direction.Right);
+                            canvas.showWindowText(false);
+                            pauseTimer = 0.5f;
+                        }
+                        else if (partScene == 2)
+                        {
+                            start = true;
+                            PlayerMovement._playerMovement.lookTo((int)Direction.Left);
+                            canvas.startDialog(5, numCutscene);
+                        }
                     }
-                    else if (partScene == 1)
+                    else if (numCutscene == 3)
                     {
-                        PlayerMovement._playerMovement.lookTo((int) Direction.Right);
-                        canvas.showWindowText(false);
-                        pauseTimer = 0.5f;
+                        if (player.transform.position.x == -5.5f && partScene == 0)
+                        {
+                            start = true;
+                            PlayerMovement.freeze = true;
+                            wizardAppears(true);
+
+                            canvas.startDialog(9, numCutscene);
+                        }
                     }
-                    else if (partScene == 2)
+                    else if (numCutscene == 4)
                     {
-                        start = true;
-                        PlayerMovement._playerMovement.lookTo((int) Direction.Left);
-                        canvas.startDialog(5, numCutscene);
+                        if (player.transform.position.x == 6.5f && player.transform.position.y == 0.5f && partScene == 0)
+                        {
+                            start = true;
+                            PlayerMovement.freeze = true;
+
+                            PlayerMovement._playerMovement.lookAt();
+                            canvas.startDialog(10, numCutscene);
+                        } else if (partScene == 1)
+                        {
+                            start = true;
+                            PlayerMovement._playerMovement.lookTo((int)Direction.Right);
+                            wizardAppears(true);
+
+                            canvas.startDialog(11, numCutscene);
+                        }
                     }
                 }
             }
@@ -124,6 +206,19 @@ public class Cutscenes : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void wizardAppears(bool appears)
+    {
+        canvas.startFlashOut(0.5f);
+        if (appears)
+        {
+            AudioManager.instance.PlaySFXName("wizard_in");
+        } else
+        {
+            AudioManager.instance.PlaySFXName("wizard_out");
+        }
+        wizard.SetActive(appears);
     }
 
     public void freezePlayerForDialog(bool val)

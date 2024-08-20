@@ -100,6 +100,72 @@ public class TextDatabase : MonoBehaviour
         "Tiens, je n'avais jamais remarqué qu'il y avait une habitation de l'autre côté du pont !",
         //35
         "Il faudrait que j'aille lui faire coucou un de ces jours !",
+
+        //36
+        "Au fait, si tu veux entrer dans un village, il y a une petite subtilité.",
+
+        //37
+        "Quoi ? Encore des conditions spéciales à ton sort ?",
+
+        //38
+        "Tu ne peux rentrer dans le village que s'il y a un obstacle derrière. Sinon, tu vas juste le pousser.",
+
+        //39
+        "Mais c'est horrible ! Les habitants vont être tous secoués !",
+
+        //40
+        "Mais non, le tremblement sera tellement léger qu'ils ressentiront juste de gentils chatouillis.",
+
+        //41
+        "Si tu le dis...",
+
+        //42
+        "Euh... comment je fais si je pousse une montagne que je ne devais pas pousser ?",
+
+        //43
+        "Ah oui, c'est vrai que tu pourrais te retrouver bloquer. Je vais te donner également un sort de retour en arrière dans ce cas.",
+
+        //44
+        "Appuie sur R pour essayer !",
+
+        //45
+        "Ah OK, donc c'est totalement improvisé tes pouvoirs...",
+
+        //46
+        "Le savais-tu ? Un palindrôme est un mot qui peut se lire de la même manière à l'endroit comme à l'envers !",
+
+        //47
+        "Ah oui, comme mon nom de famille ! Je m'appelle Darturo Yakak !",
+
+        //48
+        "(Il est bête ou quoi ???)",
+
+        //49
+        "Les chemins de randonnée sont plutôt ennuyeux par ici !",
+
+        //50
+        "La région de l'autre côté de la rivière est absolument magnifique !",
+
+        //51
+        "Je suis tellement belle qu'aucune fille au monde ne peut me ressembler.",
+
+        //52
+        "Je ne me souvenais pas que ma maison était entre deux tunnels !",
+
+        //53
+        "Mon mari me manque. Il est garde de l'autre côté du récif.",
+        //54
+        "Malheureusement, je ne peux pas le rejoindre. C'est trop loin et trop dangereux.",
+        //55
+        "Ma femme me manque tellement. Malheureusement, je dois monter la garde et surveiller ce portail.",
+
+        //56
+        "Hein ? Je ne comprends pas. J'ai ressenti de gentils chatouillis pendant un long moment, et maintenant, je me retrouve à côté de là où travaille mon mari ?",
+        //57
+        "Il faut absolument que j'aille lui faire coucou !",
+
+        //58
+        "Quoi ? Ma femme est juste à côté ? Bon, tu sais quoi, je te laisse passer. J'ai hâte de la revoir ! (FIN DU JEU)"
     };
 
     public static string[] englishText =
@@ -197,6 +263,83 @@ public class TextDatabase : MonoBehaviour
 
         //32
         "Come on, give it a try! You’ll see, it’s actually pretty fun!",
+
+        //33
+        "That's funny, a river has just appeared next to my house!",
+
+        //34
+        "I never noticed there was a house on the other side of this bridge!",
+
+        //35
+        "I should say hello to my new neighbour on of these days!",
+
+        //36
+        "Oh, I just forgot something. If you want to enter a village, there is a little subtlety.",
+
+        //37
+        "What? One more special condition to your spell?",
+
+        //38
+        "You can only enter the village if there's an obstacle behind it. Otherwise, you'll just push it.",
+
+        //39
+        "Pushing it? But it's horrible! The residents are going to be all shook up!",
+
+        //40
+        "No, don't worry! The tremor will be so slight that they'll just feel a nice tickle.",
+
+        //41
+        "Well, it's what you say...",
+
+        //42
+        "Uh... how do I do if I push a mountain I wasn't supposed to push?",
+
+        //43
+        "Ah yes, you're right, you could find yourself blocked. In that case, I'll give you a reverse spell too!",
+
+        //44
+        "Press R key to try!",
+
+        //45
+        "So... You're totally improvising your magic tricks...",
+
+        //46
+        "Did you know that? A palindrome is a word that can be read the same way forwards and backwards!",
+
+        //47
+        "Ah yes, like my family name! I'm Darturo Yakak!",
+
+        //48
+        "(Is he dumb or what???)",
+
+        //49
+        "Hiking trails are pretty boring around here!",
+
+        //50
+        "The area on the other side of the river is absolutely beautiful!",
+
+        //51
+        "I'm so beautiful that no girl in the world can look like me!",
+
+        //52
+        "I didn't remember that my house was between two tunnels!",
+
+        //53
+        "I miss my husband. He's a guard on the other side of the mountains.",
+
+        //54
+        "Unfortunately, I can't reach him. It's too far and too dangerous.",
+
+        //55
+        "I miss my wife so much. Unfortunately, I have to stand guard at this gate.",
+
+        //56
+        "What? I don't understand. I felt a nice tickle for a long time, and now I find myself next door to where my husband works?",
+        //57
+        "I absolutely must go and say hello!",
+
+        //58
+        "What's up? Is my wife next door? Well, you know what, I'll let you pass. I can't wait to see her! (THE GAME IS END)"
     };
 
     public static string getText(int i)
@@ -223,9 +366,23 @@ public class TextDatabase : MonoBehaviour
         //2
         "Zarwid",
         //3
-        "Bob",
+        "Nino",
         //4
         "Zoé",
+        //5
+        "Bob",
+        //6
+        "Marisa",
+        //7
+        "Kirio",
+        //8
+        "Vanessa",
+        //9
+        "Thémys",
+        //10
+        "Ylda",
+        //11
+        "Arguadin",
     };
 
     public static int[] nameText =
@@ -271,7 +428,34 @@ public class TextDatabase : MonoBehaviour
         2,
         3, //PNJ 33
         4,
+
         0,
+        2, //36 - 
+        1,
+        2,
+        1,
+
+        2,
+        1, //41
+        1,
+        2,
+        2,
+
+        1, //45
+        5,
+        1,
+        5,
+        6,
+
+        7, //50
+        8, 
+        9,
+        10,
+        10,
+
+        11,
+        10,
+        11,
     };
 
     public static Vector2Int[] dialogs =
@@ -286,7 +470,7 @@ public class TextDatabase : MonoBehaviour
         new Vector2Int(20, 20),
 
         //3
-        new Vector2Int(21, 28),
+        new Vector2Int(21, 23),
 
         //4
         new Vector2Int(29, 29),
@@ -299,6 +483,45 @@ public class TextDatabase : MonoBehaviour
 
         //7
         new Vector2Int(34, 35),
+
+        //8 - 3
+        new Vector2Int(24, 28),
+
+        //9
+        new Vector2Int(36, 41),
+
+        //10
+        new Vector2Int(42, 42),
+
+        //11 (10-2)
+        new Vector2Int(43, 45),
+
+        //12
+        new Vector2Int(46, 48),
+
+        //13
+        new Vector2Int(49, 49),
+
+        //14
+        new Vector2Int(50, 50),
+
+        //15
+        new Vector2Int(51, 51),
+
+         //16
+        new Vector2Int(52, 52),
+
+         //17
+        new Vector2Int(53, 54),
+
+        //18
+         new Vector2Int(55, 55),
+
+         //19
+          new Vector2Int(56, 57),
+
+          //20
+          new Vector2Int(58, 58),
     };
 
     public static Vector2Int getDialog(int i)
@@ -313,7 +536,7 @@ public class TextDatabase : MonoBehaviour
 
     public static string getName(int i)
     {
-        //Debug.Log(i + " : " + nameText[i]);
+        Debug.Log(i + " : " + nameText[i]);
         if (nameText[i] != 0)
         {
             //Debug.Log("name : "+ actualName);

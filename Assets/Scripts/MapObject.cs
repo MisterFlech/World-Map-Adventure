@@ -24,6 +24,11 @@ public class MapObject : MonoBehaviour
         }
     }
 
+    public Vector2 getNextPosition()
+    {
+        return nextPosition;
+    }
+
     public void load(int idWorld)
     {
         try

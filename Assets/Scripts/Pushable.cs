@@ -60,7 +60,7 @@ public class Pushable : MapObject
 
     private void stopMoving()
     {
-        transform.position = new Vector3(transform.position.x, nextPosition.y, transform.position.z);
+        transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
         isMoving = false;
     }
 

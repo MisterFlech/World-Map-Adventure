@@ -40,11 +40,12 @@ public class PlayerMovement : MapObject
     void Start()
     {
         canvas = CanvasGame.instance;
-        initPlayer();
+        //initPlayer();
     }
 
     public void initPlayer()
     {
+        Debug.Log("initPlayer " + transform.position);
         GridManager.addElementInGrid(this.gameObject, TileType.Hero, transform.position);
         nextPosition = new Vector2(transform.position.x, transform.position.y);
     }
@@ -135,6 +136,16 @@ public class PlayerMovement : MapObject
         }
     }
 
+    public void teleportPlayer(Vector3 position)
+    {
+        transform.position = position;
+    }
+
+    public void teleportPlayer2D(Vector2 position)
+    {
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
+    }
+
     /* Factorise des if; */
     private bool canDirection(int direction, int tiletype)
     {
@@ -191,7 +202,7 @@ public class PlayerMovement : MapObject
         return -1;
     }
 
-    private void lookAt()
+    public void lookAt()
     {
         if (_lookLeft)
         {
@@ -320,7 +331,7 @@ public class PlayerMovement : MapObject
                     lookAt();
                 }
             }
-            else
+            else //Il bouge
             {
                 if (goLeft)
                 {
@@ -401,13 +412,13 @@ public class PlayerMovement : MapObject
             spriteRenderer.sprite = sprites[0];
         }
        
-        transform.position = new Vector3(nextPosition.x, transform.position.y, transform.position.z);
+        transform.position = new Vector3(nextPosition.x, nextPosition.y, transform.position.z);
         isMoving = false;
     }
 
     private void enterVillage(GameObject pushable, int direction)
     {
-        if (pushable.tag == "Village" || pushable.tag == "WayOut")
+        if (pushable.tag == "Village" || pushable.tag == "WayOut" || pushable.tag == "Tunnel")
         {
             if (Directions.isRight(direction))
             {
@@ -434,6 +445,11 @@ public class PlayerMovement : MapObject
             {
                 WayOut _wayouy = pushable.GetComponent<WayOut>();
                 _wayouy.teleport(direction);
+            }
+            else if (pushable.tag == "Tunnel")
+            {
+                Tunnel _tunnel = pushable.GetComponent<Tunnel>();
+                _tunnel.teleport(direction);
             }
 
         }

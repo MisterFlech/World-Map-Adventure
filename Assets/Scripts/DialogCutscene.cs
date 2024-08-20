@@ -111,13 +111,21 @@ public class DialogCutscene : MonoBehaviour
         {
             _facesetImage.sprite = facesets[1];
         }
-        else if (name == "Bob")
+        else if (name == "Bob" || name == "Nino" || name == "Kirio")
         {
             _facesetImage.sprite = facesets[2];
         }
-        else if (name == "Zoé")
+        else if (name == "Zoé" || name == "Marisa" || name == "Vanessa" || name == "Thémys")
         {
             _facesetImage.sprite = facesets[3];
+        }
+        else if (name == "Arguadin")
+        {
+            _facesetImage.sprite = facesets[4];
+        }
+        else if (name == "Ylda")
+        {
+            _facesetImage.sprite = facesets[5];
         }
     }
 }

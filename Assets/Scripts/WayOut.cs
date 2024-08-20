@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class WayOut : Teleportable
 {
-    public int idVillage = 0;
+    //public int idVillage = 0;
     public Vector2 fixedCoordonnees = new Vector2(0, 0);
     public AudioClip songVillage;
     public AudioClip songWorldMap;
 
-    public void teleport(int direction)
+    public virtual void teleport(int direction)
     {
         GridManager.saveMap();
 
-        Debug.Log(teleportName + " " + teleportName.StartsWith("MM"));
+        //Debug.Log(teleportName + " " + teleportName.StartsWith("MM"));
         if (teleportName.StartsWith("MM"))
         {
             song = songVillage;
@@ -24,6 +24,9 @@ public class WayOut : Teleportable
             song = songWorldMap;
         }
 
+        PlayerTeleporter.teleportPosition = fixedCoordonnees;
+
+        /*
         if (idVillage == 0)
         {
             PlayerTeleporter.teleportPosition = fixedCoordonnees;
@@ -55,6 +58,7 @@ public class WayOut : Teleportable
                 PlayerTeleporter.teleportPosition = fixedCoordonnees;
             }
         }
+        */
         teleporting();
     }
 }

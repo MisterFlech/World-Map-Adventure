@@ -20,11 +20,21 @@ public class MenuSelectionTitle : MenuSelection
         {
             gameObject.SetActive(false);
             panelControls.SetActive(true);
+            GameObject[] translateTexts = GameObject.FindGameObjectsWithTag("Translate");
+            foreach (GameObject text in translateTexts)
+            {
+                text.GetComponent<TextTranslation>().translate();
+            }
         }
         else if (cursor == 2)
         {
             gameObject.SetActive(false);
             panelCredits.SetActive(true);
+            GameObject[] translateTexts = GameObject.FindGameObjectsWithTag("Translate");
+            foreach (GameObject text in translateTexts)
+            {
+                text.GetComponent<TextTranslation>().translate();
+            }
         }
         else if (cursor == 3)
         {

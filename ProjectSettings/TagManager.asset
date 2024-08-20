@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Wall
   - Pushable
+  - Village
+  - WayOut
+  - Translate
+  - Tunnel
   layers:
   - Default
   - TransparentFX

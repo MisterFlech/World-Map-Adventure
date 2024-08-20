@@ -32,6 +32,14 @@ public class MapName
             case "WM_Castles": return 9;
             case "MM_Village3": return 10;
             case "MM_Village4": return 11;
+            case "MM_Village5": return 12;
+            case "MM_Village6": return 13;
+            case "MM_Tunnel1": return 14;
+            case "MM_Tunnel2": return 15;
+            case "MM_Village7": return 16;
+            case "MM_Tunnel3": return 17;
+            case "MM_Forteresse": return 18;
+            case "MM_VillageLady": return 19;
         }
         return -1;
     }

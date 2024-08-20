@@ -10,8 +10,14 @@ public class PlayerTeleporter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.FindWithTag("Player");
-        player.transform.position = new Vector3(teleportPosition.x, teleportPosition.y, transform.position.z);
-        player.GetComponent<PlayerMovement>().initPlayer();
+        //player = GameObject.FindWithTag("Player");
+        //player.transform.position = new Vector3(teleportPosition.x, teleportPosition.y, transform.position.z);
+        //Debug.Log("player teleporter");
+        //player.GetComponent<PlayerMovement>().initPlayer();
+    }
+
+    public static void teleport()
+    {
+        PlayerMovement._playerMovement.teleportPlayer(new Vector3(teleportPosition.x, teleportPosition.y, 0));
     }
 }

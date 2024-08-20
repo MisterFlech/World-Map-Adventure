@@ -12,12 +12,57 @@ EditorBuildSettings:
     path: Assets/Scenes/Introduction.unity
     guid: 24c3c4333a8e1e245b22fa4209799755
   - enabled: 1
-    path: Assets/Scenes/TestMap.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
     path: Assets/Scenes/MM_HeroVillage.unity
     guid: f96c6648473ce2b4881d87895604fe28
   - enabled: 1
     path: Assets/Scenes/WM_FirstMap.unity
     guid: 56023a116dd1ad1428b9432ae8684022
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_FirstVillage.unity
+    guid: 66731e7670f5a874d861f29f9aba8813
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Village2.unity
+    guid: 966211120d8d44740bf2fd0e97093358
+  - enabled: 1
+    path: Assets/Scenes/WorldMaps/WM_2.unity
+    guid: 1e89ed51bd5b8c648bc442fd40cf8dfc
+  - enabled: 1
+    path: Assets/Scenes/WorldMaps/WM_3.unity
+    guid: e1e98812b5626be45b985c88dd84e3d5
+  - enabled: 1
+    path: Assets/Scenes/WorldMaps/WM_4.unity
+    guid: ef1609de16f5c334fb025c5bd4c96bbd
+  - enabled: 1
+    path: Assets/Scenes/WorldMaps/WM_Castles.unity
+    guid: 7730bb3a0e97f1f499de57315bc43bf0
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Village3.unity
+    guid: 6245a6077482ea74eb81d07b0da49ce5
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Village4.unity
+    guid: 259a905921d42fb409ef25df1599e08a
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Village5.unity
+    guid: f434259649d6aa248becebd40e2e4337
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Village6.unity
+    guid: d8181efa1e03ad34f81308fa206d5604
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Tunnel1.unity
+    guid: e109d7e7b8ad7d145a757c5a20973b17
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Tunnel2.unity
+    guid: 83c9407c7eb835147a723b4077b53af7
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Village7.unity
+    guid: 63669b8b5e38b2149a757d64645e9dff
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Tunnel3.unity
+    guid: e3369c44e0243374c8ec9cad6455cd31
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_Forteresse.unity
+    guid: bca643a0535c84f40878d7a8c2fbdbf6
+  - enabled: 1
+    path: Assets/Scenes/MiniMaps/MM_VillageLady.unity
+    guid: d1a54bd72690fa443a168b3d6d8be272
   m_configObjects: {}

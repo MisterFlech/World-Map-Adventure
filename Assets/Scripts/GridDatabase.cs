@@ -11,9 +11,21 @@ public class GridDatabase : MonoBehaviour
     public static Dictionary<int, int[,]> worldMapsOriginGrid = new Dictionary<int, int[,]>();
     public static Dictionary<int, int[,]> worldMapsCurrentGrid = new Dictionary<int, int[,]>();
 
+    public static Dictionary<int, Vector3> worldMapsPlayerInitialPosition = new Dictionary<int, Vector3>();
+
     public static bool worldMapExists(int idWorld)
     {
         return worldMapsOriginSave.ContainsKey(idWorld);
+    }
+
+    public static void addPlayerInitialPosition(int idWorld, Vector3 position)
+    {
+        worldMapsPlayerInitialPosition.Add(idWorld, position);
+    }
+
+    public static Vector3 getPlayerInitialPosition(int idWorld)
+    {
+        return worldMapsPlayerInitialPosition[idWorld];
     }
 
     public static void addWorldMapOrigin(int idWorld, int[,] _worldMapGrid, GameObject[,] _worldMapObjects)
@@ -56,19 +68,26 @@ public class GridDatabase : MonoBehaviour
             {
                 for (int j = 0; j < _worldMapObjects.GetLength(1); j++)
                 {
+                    //On prend l'objet de la worldmap
                     GameObject currentGameObject = _worldMapObjects[i, j];
                     if (currentGameObject != null)
                     {
-                        
                         int id = currentGameObject.GetComponent<MapObject>().idObject;
-                        //Debug.Log("saving : " + id + " - " + idWorld);
-                        if (!worldMapsCurrentSave[idWorld].ContainsKey(id))
+                        //Si l'objet (par son id) existe dans le dico currentsave, on met à jour sa position
+                        if(_worldMapGrid[i,j] == (int)TileType.Hero)
                         {
-                            Debug.Log("objet manquant");
-                        } else
+                            worldMapsCurrentGrid[idWorld][i, j] = (int)TileType.Void;
+                        }else
                         {
-                            Vector3 position = currentGameObject.transform.position;
-                            worldMapsCurrentSave[idWorld][id] = position;
+                            if (!worldMapsCurrentSave[idWorld].ContainsKey(id))
+                            {
+                                Debug.Log("objet manquant");
+                            }
+                            else
+                            {
+                                Vector3 position = currentGameObject.transform.position;
+                                worldMapsCurrentSave[idWorld][id] = position;
+                            }
                         }
                     }
                 }
@@ -108,7 +127,7 @@ public class GridDatabase : MonoBehaviour
             }
             else
             {
-                Debug.Log("objet manquant");
+                Debug.Log("objet manquant " + idObject);
             }
         }
         else
@@ -128,7 +147,7 @@ public class GridDatabase : MonoBehaviour
             }
             else
             {
-                Debug.Log("objet manquant");
+                Debug.Log("objet manquant " + idObject);
             }
         }
         else

@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class Introduction : CutscenesInterface
 {
-
     public GameObject imageIntroduction;
     public GameObject textIntroduction;
     public GameObject textPanel;
@@ -20,6 +19,20 @@ public class Introduction : CutscenesInterface
     [SerializeField] public Sprite[] imagesIntroduction;
 
     public AudioClip song;
+
+    public SoundEffect soundEffect = new SoundEffect();
+    [System.Serializable]
+    public class SoundEffect
+    {
+        [SerializeField] public AudioClip enter;
+        [SerializeField] public AudioClip boom;
+        [SerializeField] public AudioClip wizard;
+        [SerializeField] public AudioClip spell;
+        [SerializeField] public AudioClip chest;
+        [SerializeField] public AudioClip lamp;
+        [SerializeField] public AudioClip unpop;
+        [SerializeField] public AudioClip exit;
+    }
 
     protected new void Start()
     {
@@ -34,8 +47,6 @@ public class Introduction : CutscenesInterface
         StartCoroutine(FadeOut(1.0f));
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
@@ -43,6 +54,7 @@ public class Introduction : CutscenesInterface
             if (Input.GetButtonDown("Jump"))
             {
                 idText++;
+                Debug.Log(idText);
 
                 if (idText == 1)
                 {
@@ -50,14 +62,17 @@ public class Introduction : CutscenesInterface
                 }
                 else if (idText == 3)
                 {
-                    StartCoroutine(FadeIn(0.5f, 0.25f, () => textUpdate(), true));
-                }
+                    AudioManager.instance.PlaySFX(soundEffect.enter);
+                    StartCoroutine(FadeIn(0.5f, 0.25f, () => dialog4(), true));
+                } 
                 else if (idText == 5)
                 {
+                    AudioManager.instance.PlaySFX(soundEffect.lamp);
                     textUpdate();
                 }
                 else if (idText == 6)
                 {
+                    AudioManager.instance.PlaySFX(soundEffect.boom);
                     textUpdate();
                 }
                 else if (idText == 7)
@@ -67,10 +82,12 @@ public class Introduction : CutscenesInterface
                 else if (idText == 15)
                 {
                     _windowText.SetActive(false);
+                    AudioManager.instance.PlaySFX(soundEffect.spell);
                     textUpdate();
                 }
                 else if (idText == 16)
                 {
+                    AudioManager.instance.PlaySFX(soundEffect.unpop);
                     nextImage();
                     _text.SetText("");
                     startWaiting(1f, () => dialog16());
@@ -78,6 +95,7 @@ public class Introduction : CutscenesInterface
                 }
                 else if (idText >= 20)
                 {
+                    AudioManager.instance.PlaySFX(soundEffect.exit);
                     _windowText.SetActive(false);
                     StartCoroutine(FadeIn(0.75f, 0.75f, () => endTeleport(), false));
                 } else
@@ -89,6 +107,12 @@ public class Introduction : CutscenesInterface
                 }
             }
         }
+    }
+
+    public void dialog4()
+    {
+        AudioManager.instance.PlaySFX(soundEffect.chest);
+        textUpdate();
     }
 
     public void textUpdate()
@@ -110,6 +134,7 @@ public class Introduction : CutscenesInterface
         _text.SetText("");
         nextImage();
 
+        AudioManager.instance.PlaySFX(soundEffect.wizard);
         startWaiting(1.25f, () => dialog7bis());
     }
 

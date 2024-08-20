@@ -9,6 +9,40 @@ public class AudioManager : MonoBehaviour
     public AudioSource musicSource;
     public AudioSource sfxSource;
 
+    public SoundEffect soundEffect = new SoundEffect();
+    [System.Serializable]
+    public class SoundEffect
+    {
+        [SerializeField] public AudioClip wizard_in;
+        [SerializeField] public AudioClip wizard_out;
+        [SerializeField] public AudioClip enter_in;
+        [SerializeField] public AudioClip enter_out;
+    }
+
+    // Méthode pour jouer un SFX
+    public void PlaySFXName(string sfxName, float volume = 0.7f)
+    {
+        AudioClip sfx = null;
+        if (sfxName == "wizard_in")
+        {
+            sfx = soundEffect.wizard_in;
+        } else if (sfxName == "wizard_out")
+        {
+            sfx = soundEffect.wizard_out;
+        } else if (sfxName == "enter_in")
+        {
+            sfx = soundEffect.enter_in;
+        } else if (sfxName == "enter_out")
+        {
+            sfx = soundEffect.enter_out;
+        }
+        if (sfx != null)
+        {
+            PlaySFX(sfx, volume);
+        }
+        
+    }
+
     void Awake()
     {
         if (instance == null)
@@ -29,7 +63,7 @@ public class AudioManager : MonoBehaviour
         {
             if (musicSource.clip == music && musicSource.isPlaying)
             {
-                Debug.Log("same music");
+                //Debug.Log("same music");
             }
             else
             {

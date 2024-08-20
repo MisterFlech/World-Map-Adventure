@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MenuSelectionRead : MenuSelection
 {
-
     override protected void Update()
     {
         if (Input.GetButtonDown("Jump") || Input.GetButtonDown("Cancel"))
         {
-            lastPanel();
+            AudioManager.instance.PlaySFX(soundEffect.validSound);
+            _lastPanel.SetActive(true);
+            gameObject.SetActive(false);
         }
     }
 }

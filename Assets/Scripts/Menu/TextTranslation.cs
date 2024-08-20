@@ -10,12 +10,11 @@ public class TextTranslation : MonoBehaviour
     public string text_en = "";
 
     // Start is called before the first frame update
-    /*
+    
     void Start()
     {
         translate();
     }
-    */
 
     public void translate()
     {
